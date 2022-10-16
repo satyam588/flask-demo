@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+Scripts/
+Lib/
+include/
+Include/
+pyvenv.cfg
 # C extensions
 *.so
 
