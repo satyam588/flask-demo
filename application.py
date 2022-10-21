@@ -10,11 +10,18 @@ class Index(Resource):
         return {'hello': 'Get Method'}
 
     def post(self):
-        return {'hello': 'Post Method'}
+        json_request = request.get_json()
+        return json_request
+
 
 class Param(Resource):
     def get(self, num, num2):
-        return {'pram value multiply': num*num2}
+        response = {
+            'message': 'Multiplication of Inputs',
+            'status': 1,
+            'response': num*num2
+        }
+        return response
 
 
 # Routes
