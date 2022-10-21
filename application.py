@@ -20,6 +20,7 @@ class Another(Resource):
         return {'another': 'page'}
 
 api.add_resource(Index, '/')
+api.add_resource(Another, '/another')
 
 
 
