@@ -15,6 +15,10 @@ class Index(Resource):
     def get(self):
         return {'hello': 'world'}
 
+class Another(Resource):
+    def get(self):
+        return {'another': 'page'}
+
 api.add_resource(Index, '/')
 
 
