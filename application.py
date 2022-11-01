@@ -3,7 +3,6 @@ from flask_restful import Resource, Api, reqparse
 import os
 import random
 import string
-import magic
 
 application = Flask(__name__)
 api = Api(application)
@@ -28,15 +27,14 @@ class Index(Resource):
             size = os.stat(savePath).st_size
 
             # Get Mime-type
-            mimeType = magic.from_file(savePath, mime=True)
+            allowedImageType = ['png', 'jpg', 'jpeg', 'bmp', 'tiff', 'webp']
 
-            if (size < 2000000) and ('image' in mimeType):
+            if (size < 2000000) and (fileExtention in allowedImageType):
                 response = {
                     'filename': file.filename,
                     'size': size,
                     'extention': fileExtention,
-                    'save_path': savePath,
-                    'mimeitype': mimeType
+                    'save_path': savePath
                 }
                 return response
             else:
