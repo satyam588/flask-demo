@@ -4,7 +4,7 @@ import os
 import random
 import string
 
-application = Flask(__name__, static_url_path='', static_folder='uploads')
+application = Flask(__name__, static_url_path='/uploads', static_folder='uploads')
 api = Api(application)
 
 
