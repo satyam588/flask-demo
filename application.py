@@ -52,7 +52,7 @@ class Upload(Resource):
                     # Covert RGBA to RGB
                     if fileExtention == 'webp':
                         img = img.convert('RGB')
-                        
+
                     img.save(convertedPath)
 
                     message = 'Conversion Success!'
@@ -74,7 +74,7 @@ class Upload(Resource):
                     'data': data
                 }
 
-                return data
+                return response
             else:
                 if os.path.exists(savePath):
                     os.remove(savePath)
