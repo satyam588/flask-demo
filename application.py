@@ -47,7 +47,12 @@ class Upload(Resource):
                 try:
                     convertedPath = "uploads/converted/"+''.join(random.choice(string.ascii_lowercase + string.digits)
                                                                  for _ in range(10))+"."+request.form['to_format']
+
                     img = Image.open(savePath)
+                    # Covert RGBA to RGB
+                    if fileExtention == 'webp':
+                        img = img.convert('RGB')
+                        
                     img.save(convertedPath)
 
                     message = 'Conversion Success!'
@@ -68,7 +73,8 @@ class Upload(Resource):
                     'status': 1,
                     'data': data
                 }
-                return response
+
+                return data
             else:
                 if os.path.exists(savePath):
                     os.remove(savePath)
