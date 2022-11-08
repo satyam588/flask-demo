@@ -31,7 +31,8 @@ class Upload(Resource):
         response = {
             'message': 'This is Demo',
             'status': 1,
-            'data': request.form['to_format']
+            'data': request.form['to_format'],
+            'image': request.files["image"],
         }
         return response
       
