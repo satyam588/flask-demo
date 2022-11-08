@@ -32,7 +32,7 @@ class Upload(Resource):
             'message': 'This is Demo',
             'status': 1,
             'data': request.form['to_format'],
-            'image': request.files["image"],
+            'image': file.filename,
         }
         return response
       
