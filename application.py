@@ -31,7 +31,7 @@ class Upload(Resource):
         response = {
             'message': 'This is Demo',
             'status': 1,
-            'data': request.files
+            'data': request.json
         }
         return response
       
