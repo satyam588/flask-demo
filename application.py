@@ -28,13 +28,6 @@ class Param(Resource):
 class Upload(Resource):
     def post(self):
         file = request.files["image"]
-        response = {
-            'message': 'This is Demo',
-            'status': 1,
-            'data': request.form['to_format'],
-            'image': file.filename,
-        }
-        return response
       
         if (file.filename != '') and (request.form['to_format'] != ''):
             fileExtention = file.filename.split('.')
