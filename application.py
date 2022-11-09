@@ -65,7 +65,7 @@ class Upload(Resource):
                         'from_format': fileExtention,
                         'to_format': request.form['to_format'],
                         'save_path': savePath,
-                        'converted_filname': convertedFilename,
+                        'converted_filename': convertedFilename,
                         'converted_path': convertedPath
                     }
                 except:
