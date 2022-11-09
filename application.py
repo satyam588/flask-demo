@@ -28,7 +28,7 @@ class Param(Resource):
 class Upload(Resource):
     def post(self):
         file = request.files["image"]
-      
+
         if (file.filename != '') and (request.form['to_format'] != ''):
             fileExtention = file.filename.split('.')
             fileExtention = fileExtention[-1]
@@ -46,8 +46,10 @@ class Upload(Resource):
 
             if (size < 2000000) and (fileExtention in allowedImageType):
                 try:
-                    convertedPath = "uploads/converted/"+''.join(random.choice(string.ascii_lowercase + string.digits)
-                                                                 for _ in range(10))+"."+request.form['to_format']
+                    convertedFilename = ''.join(random.choice(string.ascii_lowercase + string.digits)
+                                                for _ in range(10))
+                    convertedPath = "uploads/converted/"+convertedFilename + \
+                        "."+request.form['to_format']
 
                     img = Image.open(savePath)
                     # Covert RGBA to RGB
@@ -63,6 +65,7 @@ class Upload(Resource):
                         'from_format': fileExtention,
                         'to_format': request.form['to_format'],
                         'save_path': savePath,
+                        'converted_filname': convertedFilename,
                         'converted_path': convertedPath
                     }
                 except:
