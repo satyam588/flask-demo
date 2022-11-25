@@ -202,10 +202,6 @@ class MergePdf(Resource):
     def post(self):
         files = request.files.getlist("pdfs[]")
 
-        data = []
-        for file in files:
-            data.append(file.filename)
-        return data
         folderName = ''.join(random.choice(string.ascii_lowercase + string.digits)
                              for _ in range(10))
         uploadLocation = "uploads/pdfs/merge/"+folderName
