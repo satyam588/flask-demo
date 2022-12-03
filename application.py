@@ -306,9 +306,10 @@ class PdfToImage(Resource):
             allowedImageType = ['pdf']
 
             if (size < 5000000) and (fileExtention in allowedImageType):
+                return file.filename
                 # try:
                 uploadedFilename = ''.join(random.choice(string.ascii_lowercase + string.digits)
-                                        for _ in range(10))
+                                           for _ in range(10))
                 convertedPath = "uploads/converted/pdf-to-image/"+uploadedFilename
 
                 if not os.path.exists(convertedPath):
