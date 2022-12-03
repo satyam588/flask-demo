@@ -6,6 +6,7 @@ import string
 from PIL import Image
 from PyPDF2 import PdfFileReader, PdfFileWriter, PdfMerger
 import shutil
+from pdf2image import convert_from_path
 
 application = Flask(__name__, static_url_path='/uploads',
                     static_folder='uploads')
@@ -285,12 +286,85 @@ class MergePdf(Resource):
         return response
 
 
+class PdfToImage(Resource):
+    def post(self):
+        file = request.files["pdf"]
+
+        if file.filename != '':
+            fileExtention = file.filename.split('.')
+            fileExtention = fileExtention[-1]
+
+            # Save Path
+            savePath = "uploads/pdfs/" + \
+                ''.join(random.choice(string.ascii_lowercase + string.digits)
+                        for _ in range(10))+"."+fileExtention
+            file.save(savePath)
+            # Get Size in byte
+            size = os.stat(savePath).st_size
+
+            # Get Mime-type
+            allowedImageType = ['pdf']
+
+            if (size < 5000000) and (fileExtention in allowedImageType):
+                try:
+                    uploadedFilename = ''.join(random.choice(string.ascii_lowercase + string.digits)
+                                            for _ in range(10))
+                    convertedPath = "uploads/converted/pdf-to-image/"+uploadedFilename
+
+                    if not os.path.exists(convertedPath):
+                        os.makedirs(convertedPath)
+
+                    convert_from_path(
+                        savePath, output_folder=convertedPath, poppler_path=r"Library\bin", fmt='jpg', output_file=file.filename.split('.')[0])
+
+                    shutil.make_archive(
+                        "uploads/converted/pdf-to-image/"+uploadedFilename, "zip", convertedPath)
+                    shutil.rmtree(convertedPath, ignore_errors=True)
+                    message = 'Conversion Success!'
+                    data = {
+                        'filename': file.filename,
+                        'size': size,
+                        'from_format': fileExtention,
+                        'save_path': savePath,
+                        'converted_filename': uploadedFilename,
+                        'zip_file': convertedPath+'.zip'
+                    }
+                except:
+                    message = 'Something went Wrong, Please try again!'
+                    data = []
+
+                response = {
+                    'message': message,
+                    'status': 1,
+                    'data': data
+                }
+
+                return response
+            else:
+                if os.path.exists(savePath):
+                    os.remove(savePath)
+                response = {
+                    'message': 'Only PDF file and Less then 2MB allowed!',
+                    'status': 0,
+                    'data': []
+                }
+                return response
+        else:
+            response = {
+                'message': 'Pdf file is Required!',
+                'status': 0,
+                'data': []
+            }
+            return response
+
+
 # Routes
 api.add_resource(Index, '/')
 api.add_resource(Param, '/param/<int:num>/<int:num2>')
 api.add_resource(Upload, '/upload')
 api.add_resource(SplitPdf, '/split-pdf')
 api.add_resource(MergePdf, '/merge-pdf')
+api.add_resource(PdfToImage, '/pdf-image')
 
 
 if __name__ == "__main__":
