@@ -314,8 +314,10 @@ class PdfToImage(Resource):
                 if not os.path.exists(convertedPath):
                     os.makedirs(convertedPath)
 
+                # convert_from_path(
+                #     savePath, output_folder=convertedPath, poppler_path=r"Library\bin", fmt='jpg', output_file=file.filename.split('.')[0])
                 convert_from_path(
-                    savePath, output_folder=convertedPath, poppler_path=r"Library\bin", fmt='jpg', output_file=file.filename.split('.')[0])
+                    savePath, output_folder=convertedPath, fmt='jpg', output_file=file.filename.split('.')[0])
 
                 shutil.make_archive(
                     "uploads/converted/pdf-to-image/"+uploadedFilename, "zip", convertedPath)
