@@ -306,32 +306,32 @@ class PdfToImage(Resource):
             allowedImageType = ['pdf']
 
             if (size < 5000000) and (fileExtention in allowedImageType):
-                try:
-                    uploadedFilename = ''.join(random.choice(string.ascii_lowercase + string.digits)
-                                            for _ in range(10))
-                    convertedPath = "uploads/converted/pdf-to-image/"+uploadedFilename
+                # try:
+                uploadedFilename = ''.join(random.choice(string.ascii_lowercase + string.digits)
+                                        for _ in range(10))
+                convertedPath = "uploads/converted/pdf-to-image/"+uploadedFilename
 
-                    if not os.path.exists(convertedPath):
-                        os.makedirs(convertedPath)
+                if not os.path.exists(convertedPath):
+                    os.makedirs(convertedPath)
 
-                    convert_from_path(
-                        savePath, output_folder=convertedPath, poppler_path=r"Library\bin", fmt='jpg', output_file=file.filename.split('.')[0])
+                convert_from_path(
+                    savePath, output_folder=convertedPath, poppler_path=r"Library\bin", fmt='jpg', output_file=file.filename.split('.')[0])
 
-                    shutil.make_archive(
-                        "uploads/converted/pdf-to-image/"+uploadedFilename, "zip", convertedPath)
-                    shutil.rmtree(convertedPath, ignore_errors=True)
-                    message = 'Conversion Success!'
-                    data = {
-                        'filename': file.filename,
-                        'size': size,
-                        'from_format': fileExtention,
-                        'save_path': savePath,
-                        'converted_filename': uploadedFilename,
-                        'zip_file': convertedPath+'.zip'
-                    }
-                except:
-                    message = 'Something went Wrong, Please try again!'
-                    data = []
+                shutil.make_archive(
+                    "uploads/converted/pdf-to-image/"+uploadedFilename, "zip", convertedPath)
+                shutil.rmtree(convertedPath, ignore_errors=True)
+                message = 'Conversion Success!'
+                data = {
+                    'filename': file.filename,
+                    'size': size,
+                    'from_format': fileExtention,
+                    'save_path': savePath,
+                    'converted_filename': uploadedFilename,
+                    'zip_file': convertedPath+'.zip'
+                }
+                # except:
+                #     message = 'Something went Wrong, Please try again!'
+                #     data = []
 
                 response = {
                     'message': message,
